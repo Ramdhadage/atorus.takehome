@@ -1,4 +1,4 @@
-DataStore <- R6Class(
+DataStore <- R6::R6Class(
   "DataStore",
   public = list(
     con = NULL,      # duckdb connection object (DBI connection)
