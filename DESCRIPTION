@@ -9,6 +9,7 @@ Imports:
     config,
     golem,
     pkgload,
+    R6,
     shiny
 Suggests: 
     testthat (>= 3.0.0)
