@@ -18,7 +18,7 @@
 #' db_path <- validate_db_path()
 #' }
 #' @keywords internal
-validate_db_path <- function(package = "r6.assignment",
+validate_db_path <- function(package = "atorus.takehome",
                              subdir = "extdata",
                              filename = "mtcars.duckdb") {
   tryCatch({
