@@ -6,13 +6,10 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # External resources (CSS, JS, favicon)
     golem_add_external_resources(),
 
-    # Initialize shinyjs
     shinyjs::useShinyjs(),
 
-    # Initialize AWN notifications
     awn::useAwn(),
 
     bslib::page_navbar(
@@ -26,16 +23,9 @@ app_ui <- function(request) {
         title = "Home",
         value = "home",
 
-        # Page header using bslib card
-        # bslib::card(
-        # class = "page-header",
-        # bslib::card_body(
         strong(h1("MTCars Dataset")),
         p("Interactive data table with real-time editing"),
-        # )
-        # ),
 
-        # Main content: Table module
         mod_table_ui("table")
       ),
 
