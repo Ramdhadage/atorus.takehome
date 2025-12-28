@@ -1,11 +1,56 @@
-#' <Add Title>
+#' Handsontable Interactive Table Widget
 #'
-#' <Add Description>
+#' @description
+#' Custom htmlwidget wrapping Handsontable library for editable data tables.
+#' Implements bidirectional R ↔ JS communication with single-cell edit validation.
+#'
+#' @details
+#' This widget is designed for production Shiny applications requiring:
+#' - Deterministic single-cell edits (no batch operations)
+#' - Type validation in both JS and R layers
+#' - Controlled reactivity through explicit state management
+#' - Clean separation between UI (Handsontable) and state (R6)
+#'
+#' @param data Data frame to display and edit. Required.
+#' @param width Widget width (CSS unit or NULL for auto)
+#' @param height Widget height (CSS unit or NULL for auto)
+#' @param elementId Explicit element ID for Shiny input binding (auto-generated if NULL)
+#'
+#' @return htmlwidget object
+#'
+#' @section JavaScript Communication:
+#' The widget sends edit events to Shiny via `input$<id>_edit`:
+#' ```
+#' {
+#'   row: 0,              # 0-based JavaScript index
+#'   col: "mpg",          # Column name
+#'   oldValue: 21.0,      # Previous value
+#'   value: 22.5          # New value (user input)
+#' }
+#' ```
+#'
+#' @examples
+#' \dontrun{
+#' # Standalone usage
+#' hotwidget(data = mtcars)
+#'
+#' # In Shiny
+#' output$table <- renderHotwidget({
+#'   hotwidget(data = store$data)
+#' })
+#' }
 #'
 #' @import htmlwidgets
-#'
 #' @export
 hotwidget <- function(data, width = NULL, height = NULL, elementId = NULL) {
+
+  if (missing(data) || is.null(data)) {
+    stop("'data' parameter is required")
+  }
+
+  if (!is.data.frame(data)) {
+    stop("'data' must be a data.frame")
+  }
 
   # forward options using x
   x = list(
