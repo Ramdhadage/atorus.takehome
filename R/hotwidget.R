@@ -5,11 +5,13 @@
 #' @import htmlwidgets
 #'
 #' @export
-hotwidget <- function(message, width = NULL, height = NULL, elementId = NULL) {
+hotwidget <- function(data, width = NULL, height = NULL, elementId = NULL) {
 
   # forward options using x
   x = list(
-    message = message
+   data = data,
+   colHeaders = as.list(names(data)),
+   colTypes = as.list(sapply(data, function(col) class(col)[1], USE.NAMES = FALSE))
   )
 
   # create widget
