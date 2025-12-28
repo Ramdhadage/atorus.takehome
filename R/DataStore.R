@@ -52,16 +52,10 @@ DataStore <- R6::R6Class(
     #' store <- DataStore$new()
     #' }
     initialize = function() {
-
-    },
-
-    update_cell = function(row, col, value) {
       tryCatch({
-        db_path <- validate_db_path()
+        private$db_path <- validate_db_path()
 
-        private$temp_db_path <- copy_db_to_temp(db_path)
-
-        self$con <- establish_duckdb_connection(private$temp_db_path, read_only = FALSE)
+        self$con <- establish_duckdb_connection(private$db_path, read_only = FALSE)
 
         new_rownames <- c("Mazda RX4", "Mazda RX4 Wag", "Datsun 710",
                           "Hornet 4 Drive", "Hornet Sportabout", "Valiant",
@@ -86,12 +80,6 @@ DataStore <- R6::R6Class(
         if (!is.null(self$con)) {
           tryCatch({
             DBI::dbDisconnect(self$con, shutdown = TRUE)
-          }, error = function(x) NULL)
-        }
-
-        if (!is.null(private$temp_db_path)) {
-          tryCatch({
-            unlink(private$temp_db_path)
           }, error = function(x) NULL)
         }
 
@@ -224,7 +212,85 @@ DataStore <- R6::R6Class(
       private$modified_cells <- private$modified_cells + 1
 
       invisible(TRUE)
-    }
+    },
+    #' Save Current Data to DuckDB
+    #'
+    #' @description
+    #' Persists current working data back to DuckDB table with full validation.
+    #' Implements granular validation phases with deterministic checks (checkmate)
+    #' and risky operations in try-catch blocks. Overwrites entire table with current state.
+    #' Resets modified cells counter and updates original snapshot after successful save.
+    #' Uses bifurcated error handling: checkmate assertions -> try-catch for DB operations
+    #' -> cli messaging for context.
+    #'
+    #' @return Invisible self for method chaining
+    #' @examples
+    #' \dontrun{
+    #' store$save()
+    #' }
+    save = function() {
+      tryCatch({
+        validate_save_connection(self$con)
 
+        validate_save_data(self$data)
+        validate_save_structure(self$data, self$original)
+        delete_mtcars_table(self$con)
+
+        write_mtcars_to_db(self$con, self$data)
+
+        self$original <- data.frame(self$data, check.names = FALSE)
+
+        private$modified_cells <- 0
+
+        cli::cli_inform("Data saved to DuckDB: {nrow(self$data)} rows saved successfully")
+        invisible(self)
+      }, error = function(e) {
+        cli::cli_abort(c(
+          "Save operation failed",
+          "x" = "{conditionMessage(e)}"
+        ))
+      })
+
+    },
+    #' Get Modified Cells Count
+    #'
+    #' @description
+    #' Returns the number of cells that have been modified since last save/revert.
+    #'
+    #' @return Integer count of modified cells
+    #' @examples
+    #' \dontrun{
+    #' count <- store$get_modified_count()
+    #' }
+    get_modified_count = function() {
+      private$modified_cells
+    }
+  ),
+
+  private = list(
+    #' @field db_path Path to DuckDB file
+    db_path = NULL,
+
+    #' @field modified_cells Counter for number of cell edits since last save/revert
+    modified_cells = 0,
+    #' Cleanup Connection and Temp File
+    #'
+    #' @description
+    #' Finalizer to ensure DuckDB connection is properly closed and
+    #' temporary database file is cleaned up. Called automatically on
+    #' garbage collection or explicit rm().
+    #'
+    #' @return Invisible NULL
+    finalize = function() {
+      # Disconnect from DuckDB
+      if (!is.null(self$con)) {
+        tryCatch({
+          DBI::dbDisconnect(self$con, shutdown = TRUE)
+          cli::cli_inform("DuckDB connection closed")
+        }, error = function(e) {
+          cli::cli_warn("Error closing DuckDB connection: {conditionMessage(e)}")
+        })
+      }
+    }
   )
 )
