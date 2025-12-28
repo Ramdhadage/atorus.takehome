@@ -1,4 +1,8 @@
 dependencies:
+ - name: numbro
+   version: 2.5.0
+   src: htmlwidgets/libs/numbro-2.3.2/js
+   script: numbro.min.js
  - name: handsontable
    version: 16.1.1
    src: htmlwidgets/libs/handsontable
