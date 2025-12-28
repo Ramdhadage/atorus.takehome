@@ -7,4 +7,6 @@ dependencies:
    version: 16.1.1
    src: htmlwidgets/libs/handsontable
    script: handsontable.min.js
-   stylesheet: handsontable.css
+   stylesheet:
+     - handsontable.css
+     - ht-theme-main.css
