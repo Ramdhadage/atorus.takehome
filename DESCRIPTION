@@ -1,17 +1,25 @@
 Package: atorus.takehome
 Title: atorus.takehome
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
-    person("AUTHOR_FIRST", "AUTHOR_LAST", , "AUTHOR@MAIL.COM", role = c("aut", "cre"))
+    person("Ramnath", "Dhadage", , "ram.dhadage123@gmail.com", role = c("aut", "cre"))
 Description: A lightweight table viewer package.
 License: MIT + file LICENSE
 Imports: 
+    awn,
+    bslib,
+    checkmate,
+    cli,
     config,
+    DBI,
+    duckdb,
     golem,
     pkgload,
     R6,
-    shiny
+    shiny,
+    shinyjs
 Suggests: 
+    shinytest2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
