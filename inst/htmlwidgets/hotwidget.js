@@ -20,14 +20,27 @@ HTMLWidgets.widget({
         console.log('Column types:', colTypes);
         el.innerText = "";
         hotInstance = new Handsontable(el, {
+          themeName: 'ht-theme-main',
           data: currentData,
           colHeaders: colHeaders,
-           className: 'htCenter',
+          className: 'htCenter',
           rowHeaders: false,
           columnSorting: true,
-          contextMenu: ['undo', 'redo'],
+          multiColumnSorting: true,
+          filters: true,
+          dropdownMenu: true,
           manualColumnResize: true,
+          contextMenu: true,
+          search : true,
           stretchH: 'all',
+          pagination: {
+            pageSize: 50,
+            pageSizeList: ['auto', 5, 10, 20, 50, 100],
+            initialPage: 1,
+            showPageSize: true,
+            showCounter: true,
+            showNavigation: true,
+          },
            columns: originalColHeaders.map((colName) => {
             const colType = colTypes[colName];
             const config = { data: colName };
