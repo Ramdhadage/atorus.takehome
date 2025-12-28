@@ -87,6 +87,16 @@ HTMLWidgets.widget({
       resize: function(width, height) {
 
         // TODO: code to re-render the widget with a new size
+        if (hotInstance) {
+
+          el.style.width = width + 'px';
+          el.style.height = height + 'px';
+
+          hotInstance.updateSettings({
+            width: width,
+            height: height
+          });
+        }
 
       }
 
