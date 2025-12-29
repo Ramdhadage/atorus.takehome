@@ -53,9 +53,10 @@ DataStore <- R6::R6Class(
     #' }
     initialize = function() {
       tryCatch({
-        private$db_path <- validate_db_path()
+        db_path <- validate_db_path()
 
-        self$con <- establish_duckdb_connection(private$db_path, read_only = FALSE)
+        private$temp_db_path <- copy_db_to_temp(db_path)
+        self$con <- establish_duckdb_connection(private$temp_db_path, read_only = FALSE)
 
         new_rownames <- c("Mazda RX4", "Mazda RX4 Wag", "Datsun 710",
                           "Hornet 4 Drive", "Hornet Sportabout", "Valiant",
@@ -80,6 +81,12 @@ DataStore <- R6::R6Class(
         if (!is.null(self$con)) {
           tryCatch({
             DBI::dbDisconnect(self$con, shutdown = TRUE)
+          }, error = function(x) NULL)
+        }
+
+        if (!is.null(private$temp_db_path)) {
+          tryCatch({
+            unlink(private$temp_db_path)
           }, error = function(x) NULL)
         }
 
@@ -268,8 +275,8 @@ DataStore <- R6::R6Class(
   ),
 
   private = list(
-    #' @field db_path Path to DuckDB file
-    db_path = NULL,
+    #' @field temp_db_path Path to temporary DuckDB file (for cleanup on error)
+    temp_db_path = NULL,
 
     #' @field modified_cells Counter for number of cell edits since last save/revert
     modified_cells = 0,
@@ -291,6 +298,15 @@ DataStore <- R6::R6Class(
           cli::cli_warn("Error closing DuckDB connection: {conditionMessage(e)}")
         })
       }
+      if (!is.null(private$temp_db_path)) {
+        tryCatch({
+          unlink(private$temp_db_path)
+          cli::cli_inform("Temporary database file cleaned up")
+        }, error = function(e) {
+          cli::cli_warn("Error cleaning up temp file: {conditionMessage(e)}")
+        })
+      }
+
     }
   )
 )
