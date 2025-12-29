@@ -6,7 +6,10 @@ HTMLWidgets.widget({
 
   factory: function(el, width, height) {
 
-    // TODO: define shared variables for this instance
+    let hotInstance = null;
+    let currentData = null;
+    let isUpdating = false;
+
 
     return {
 
@@ -17,7 +20,11 @@ HTMLWidgets.widget({
         const originalColHeaders = x.colHeaders || Object.keys(currentData[0] || {});
         const colHeaders = originalColHeaders.map((header) => header.toUpperCase());
         const colTypes = x.colTypes || {};
-        console.log('Column types:', colTypes);
+        if (hotInstance) {
+          hotInstance.destroy();
+          hotInstance = null;
+        }
+        console.log("data:", currentData)
         el.innerText = "";
         hotInstance = new Handsontable(el, {
           themeName: 'ht-theme-main',
@@ -79,6 +86,54 @@ HTMLWidgets.widget({
             }
             return config;
           }),
+/**
+           * afterChange Hook - Capture cell edits and send to R
+           *
+           * Implements single-cell edit pattern:
+           * 1. User edits cell in Handsontable
+           * 2. JS validates type (numeric, text, etc.)
+           * 3. Send edit to R via Shiny.setInputValue
+           * 4. R validates and updates R6 state
+           * 5. R re-renders widget with new data
+           *
+           * @param {Array} changes - Array of changes [[row, prop, oldVal, newVal], ...]
+           * @param {String} source - Source of change ('edit', 'loadData', etc.)
+           */
+          afterChange: function(changes, source) {
+            if (source === 'loadData' || isUpdating) {
+              return;
+            }
+
+            if (source !== 'edit' || !changes) {
+              return;
+            }
+
+            const change = changes[0];
+            const [row, prop, oldValue, newValue] = change;
+
+            if (oldValue === newValue) {
+              return;
+            }
+
+            if (typeof Shiny !== 'undefined') {
+              Shiny.setInputValue(el.id + '_edit', {
+                row: row,
+                col: prop,
+                oldValue: oldValue,
+                value: newValue,
+                timestamp: Date.now()
+              });
+            }
+          },
+
+          /**
+           * afterValidate Hook - Show validation errors
+           */
+          afterValidate: function(isValid, value, row, prop, source) {
+            if (!isValid && source === 'edit') {
+              console.warn('Validation failed:', {row, col: prop, value});
+            }
+          },
           licenseKey: 'non-commercial-and-evaluation',
         })
 
