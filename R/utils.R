@@ -146,11 +146,12 @@ load_mtcars_data <- function(con, table = "mtcars", default_rownames = NULL) {
     # Read table with type preservation
     result <-  DBI::dbReadTable(con, table)
     # Add rownames as first column if they're missing
-    if (is.null(rownames(result)) || all(rownames(result) == seq_len(nrow(result)))) {
+    if (is.null(rownames(result)) || all(rownames(result) == seq_len(nrow(result))) && !("MODEL" %in% names(result))) {
       if (!is.null(default_rownames) && length(default_rownames) == nrow(result)) {
         result <- cbind(MODEL = default_rownames, result, stringsAsFactors = FALSE)
       }
     }
+    result <- set_mtcars_column_type(result)
     return(result)
   }, error = function(e) {
     cli::cli_warn(c(
@@ -163,6 +164,34 @@ load_mtcars_data <- function(con, table = "mtcars", default_rownames = NULL) {
     data.frame()
   })
 }
+#' Convert mtcars columns to appropriate data types
+#'
+#' Transforms specific columns in a data frame to more appropriate data types:
+#' - 'am' column to logical (automatic vs manual transmission)
+#' - 'vs', 'cyl', 'gear', 'carb' columns to factors
+#'
+#' @param data A data frame to transform
+#' @return A data frame with transformed column types
+#' @examples
+#' transformed_mtcars <- set_mtcars_column_type(mtcars)
+set_mtcars_column_type <- function(data) {
+  if (!is.data.frame(data)) {
+    stop("Input must be a data frame")
+  }
+
+  # Apply transformations
+  for (col_name in names(data)) {
+    if (col_name %in% "am") {
+      data[[col_name]] <- as.logical(data[[col_name]])
+    } else if (col_name %in% c("vs", "cyl", "gear", "carb")) {
+      data[[col_name]] <- as.factor(data[[col_name]])
+    }
+  }
+
+  return(data)
+}
+
+
 
 #' Validate Data Frame Exists and Is Valid
 #'
