@@ -1,4 +1,3 @@
-devtools::load_all()
 library(shinytest2)
 # Helper to start app driver with safe teardown
 start_app <- function(...) {

@@ -53,10 +53,9 @@ DataStore <- R6::R6Class(
     #' }
     initialize = function() {
       tryCatch({
-        db_path <- validate_db_path()
+        private$db_path <- validate_db_path()
 
-        private$temp_db_path <- copy_db_to_temp(db_path)
-        self$con <- establish_duckdb_connection(private$temp_db_path, read_only = FALSE)
+        self$con <- establish_duckdb_connection(private$db_path, read_only = FALSE)
 
         new_rownames <- c("Mazda RX4", "Mazda RX4 Wag", "Datsun 710",
                           "Hornet 4 Drive", "Hornet Sportabout", "Valiant",
@@ -84,12 +83,6 @@ DataStore <- R6::R6Class(
           }, error = function(x) NULL)
         }
 
-        if (!is.null(private$temp_db_path)) {
-          tryCatch({
-            unlink(private$temp_db_path)
-          }, error = function(x) NULL)
-        }
-
         cli::cli_abort(c(
           "DataStore initialization failed",
           "x" = "{conditionMessage(e)}"
@@ -100,8 +93,7 @@ DataStore <- R6::R6Class(
     },
     #' Revert to Original State
     #'
-    #' @description
-    # Reset the working data (self$data) back to the original snapshot.
+    #' @description Reset the working data (self$data) back to the original snapshot.
     #
     # EXPECTED BEHAVIOR:
     # - self$data should become identical to self$original
@@ -244,7 +236,6 @@ DataStore <- R6::R6Class(
         delete_mtcars_table(self$con)
 
         write_mtcars_to_db(self$con, self$data)
-
         self$original <- data.frame(self$data, check.names = FALSE)
 
         private$modified_cells <- 0
@@ -275,15 +266,14 @@ DataStore <- R6::R6Class(
   ),
 
   private = list(
-    #' @field temp_db_path Path to temporary DuckDB file (for cleanup on error)
-    temp_db_path = NULL,
+    #' #' @field db_path Path to DuckDB file
+    db_path = NULL,
 
     #' @field modified_cells Counter for number of cell edits since last save/revert
     modified_cells = 0,
     #' Cleanup Connection and Temp File
     #'
-    #' @description
-    #' Finalizer to ensure DuckDB connection is properly closed and
+    #' @description Finalizer to ensure DuckDB connection is properly closed and
     #' temporary database file is cleaned up. Called automatically on
     #' garbage collection or explicit rm().
     #'
@@ -296,14 +286,6 @@ DataStore <- R6::R6Class(
           cli::cli_inform("DuckDB connection closed")
         }, error = function(e) {
           cli::cli_warn("Error closing DuckDB connection: {conditionMessage(e)}")
-        })
-      }
-      if (!is.null(private$temp_db_path)) {
-        tryCatch({
-          unlink(private$temp_db_path)
-          cli::cli_inform("Temporary database file cleaned up")
-        }, error = function(e) {
-          cli::cli_warn("Error cleaning up temp file: {conditionMessage(e)}")
         })
       }
 
