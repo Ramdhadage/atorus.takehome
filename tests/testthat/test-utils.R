@@ -27,76 +27,39 @@ test_that("validate_db_path throws cli_abort when package does not exist", {
   )
 })
 
-test_that("copy_db_to_temp copies file to temp directory", {
+test_that("validate_db_path returns readable canonical database file", {
   db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
 
-  expect_true(file.exists(temp_db))
-  expect_true(endsWith(temp_db, ".duckdb"))
-
-  # Cleanup
-  unlink(temp_db)
-})
-
-test_that("copy_db_to_temp creates readable copy", {
-  db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
-
-  # Verify file can be read
-  file_size <- file.size(temp_db)
+  # Verify file exists and is readable
+  expect_true(file.exists(db_path))
+  file_size <- file.size(db_path)
   expect_true(file_size > 0)
 
-  # Cleanup
-  unlink(temp_db)
+  # Verify it is the canonical bundled database
+  expect_true(endsWith(db_path, "mtcars.duckdb"))
+  expect_true(grepl("extdata", db_path))
 })
 
-test_that("copy_db_to_temp throws cli_abort for invalid source path", {
-  expect_error(
-    copy_db_to_temp("/nonexistent/path/file.duckdb"),
-    class = "rlang_error"
-  )
-})
-
-test_that("establish_duckdb_connection returns valid DBI connection object", {
+test_that("establish_duckdb_connection can open canonical database in read-write mode", {
   db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
-
-  con <- establish_duckdb_connection(temp_db)
+  con <- establish_duckdb_connection(db_path, read_only = FALSE)
 
   expect_s4_class(con, "DBIConnection")
   expect_true(DBI::dbIsValid(con))
 
   # Cleanup
   DBI::dbDisconnect(con, shutdown = TRUE)
-  unlink(temp_db)
 })
 
-test_that("establish_duckdb_connection opens in read-write mode by default", {
+test_that("establish_duckdb_connection can open canonical database in read-only mode", {
   db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
-
-  con <- establish_duckdb_connection(temp_db, read_only = FALSE)
+  con <- establish_duckdb_connection(db_path, read_only = TRUE)
 
   expect_s4_class(con, "DBIConnection")
   expect_true(DBI::dbIsValid(con))
 
   # Cleanup
   DBI::dbDisconnect(con, shutdown = TRUE)
-  unlink(temp_db)
-})
-
-test_that("establish_duckdb_connection can open in read-only mode", {
-  db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
-
-  con <- establish_duckdb_connection(temp_db, read_only = TRUE)
-
-  expect_s4_class(con, "DBIConnection")
-  expect_true(DBI::dbIsValid(con))
-
-  # Cleanup
-  DBI::dbDisconnect(con, shutdown = TRUE)
-  unlink(temp_db)
 })
 
 test_that("establish_duckdb_connection throws cli_abort for invalid database path", {
@@ -106,10 +69,9 @@ test_that("establish_duckdb_connection throws cli_abort for invalid database pat
   )
 })
 
-test_that("load_mtcars_data loads entire table as data.frame", {
+test_that("load_mtcars_data loads entire table from canonical database", {
   db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
-  con <- establish_duckdb_connection(temp_db)
+  con <- establish_duckdb_connection(db_path)
 
   result <- load_mtcars_data(con, table = "mtcars")
 
@@ -118,13 +80,11 @@ test_that("load_mtcars_data loads entire table as data.frame", {
   expect_gt(ncol(result), 0)
   expect_equal(nrow(result), 32)  # mtcars has 32 rows
   DBI::dbDisconnect(con, shutdown = TRUE)
-  unlink(temp_db)
 })
 
-test_that("load_mtcars_data preserves column types from table definition", {
+test_that("load_mtcars_data preserves column types from canonical database", {
   db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
-  con <- establish_duckdb_connection(temp_db)
+  con <- establish_duckdb_connection(db_path)
 
   result <- load_mtcars_data(con, table = "mtcars")
   result_numeric <- subset(result, select = c("mpg", "disp", "hp", "drat", "wt", "qsec"))
@@ -137,13 +97,11 @@ test_that("load_mtcars_data preserves column types from table definition", {
 
   # Cleanup
   DBI::dbDisconnect(con, shutdown = TRUE)
-  unlink(temp_db)
 })
 
 test_that("load_mtcars_data returns empty data.frame on query failure", {
   db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
-  con <- establish_duckdb_connection(temp_db)
+  con <- establish_duckdb_connection(db_path)
 
   # Try to load non-existent table (graceful degradation)
   result <- suppressWarnings(
@@ -153,13 +111,11 @@ test_that("load_mtcars_data returns empty data.frame on query failure", {
   expect_equal(nrow(result), 0)
   # Cleanup
   DBI::dbDisconnect(con, shutdown = TRUE)
-  unlink(temp_db)
 })
 
 test_that("load_mtcars_data warns but does not abort on table not found", {
   db_path <- validate_db_path()
-  temp_db <- copy_db_to_temp(db_path)
-  con <- establish_duckdb_connection(temp_db)
+  con <- establish_duckdb_connection(db_path)
 
   # This should warn, not error
   result <-  expect_warning(load_mtcars_data(con,
@@ -168,7 +124,6 @@ test_that("load_mtcars_data warns but does not abort on table not found", {
     )
   # Cleanup
   DBI::dbDisconnect(con, shutdown = TRUE)
-  unlink(temp_db)
 })
 
 test_that("DataStore initializes successfully with all utility functions", {
@@ -700,6 +655,15 @@ test_that("delete_mtcars_table succeeds when table exists", {
 })
 
 test_that("delete_mtcars_table succeeds when table does not exist", {
+  # Ensure mtcars table exists first (may be deleted from previous test)
+  db_path <- validate_db_path()
+  con <- establish_duckdb_connection(db_path)
+  if (!DBI::dbExistsTable(con, "mtcars")) {
+    write_mtcars_to_db(con, mtcars)
+  }
+  DBI::dbDisconnect(con, shutdown = TRUE)
+
+  # Now create store with restored table
   store <- DataStore$new()
 
   # Delete table first
@@ -708,6 +672,9 @@ test_that("delete_mtcars_table succeeds when table does not exist", {
 
   # Delete again should still succeed (IF EXISTS clause)
   expect_invisible(delete_mtcars_table(store$con))
+
+  # Restore table for subsequent tests
+  write_mtcars_to_db(store$con, mtcars)
 
   # Cleanup
   rm(store)
@@ -728,14 +695,14 @@ test_that("write_mtcars_to_db writes data successfully", {
   delete_mtcars_table(store$con)
   expect_false(DBI::dbExistsTable(store$con, "mtcars"))
 
-  # Write new data
-  expect_invisible(write_mtcars_to_db(store$con, store$data))
+  # Write canonical mtcars data (not store$data which may be empty)
+  expect_invisible(write_mtcars_to_db(store$con, mtcars))
 
   # Verify table was created and contains data
   expect_true(DBI::dbExistsTable(store$con, "mtcars"))
   saved_data <- DBI::dbReadTable(store$con, "mtcars")
-  expect_equal(nrow(saved_data), nrow(store$data))
-  expect_equal(ncol(saved_data), ncol(store$data))
+  expect_equal(nrow(saved_data), nrow(mtcars))
+  expect_equal(ncol(saved_data), ncol(mtcars))
 
   # Cleanup
   rm(store)
@@ -745,17 +712,18 @@ test_that("write_mtcars_to_db writes data successfully", {
 test_that("write_mtcars_to_db overwrites existing data", {
   store <- DataStore$new()
 
-  # Modify and save first copy
-  store$data[1, "mpg"] <- 99.9
-  expect_invisible(write_mtcars_to_db(store$con, store$data))
+  # Prepare data: start with full mtcars
+  test_data <- mtcars
+  test_data[1, "mpg"] <- 99.9
+  expect_invisible(write_mtcars_to_db(store$con, test_data))
 
   # Verify first value was written
   saved_data <- DBI::dbReadTable(store$con, "mtcars")
   expect_equal(saved_data[1, "mpg"], 99.9)
 
-  # Modify again and save second copy
-  store$data[1, "mpg"] <- 88.8
-  expect_invisible(write_mtcars_to_db(store$con, store$data))
+  # Modify and save second copy
+  test_data[1, "mpg"] <- 88.8
+  expect_invisible(write_mtcars_to_db(store$con, test_data))
 
   # Verify second value overwrote first
   saved_data <- DBI::dbReadTable(store$con, "mtcars")
@@ -817,6 +785,14 @@ test_that("DataStore$save() persists data to DuckDB", {
 test_that("DataStore$save() updates original snapshot", {
   store <- DataStore$new()
 
+  # Ensure full mtcars data (may be empty from previous test)
+  if (nrow(store$data) < 32) {
+    delete_mtcars_table(store$con)
+    write_mtcars_to_db(store$con, mtcars)
+    store$data <- load_mtcars_data(store$con)
+    store$original <- store$data
+  }
+
   original_baseline <- store$original
 
   store$update_cell(1, "mpg", 25.5)
@@ -835,6 +811,14 @@ test_that("DataStore$save() updates original snapshot", {
 
 test_that("DataStore$save() resets modified_cells counter", {
   store <- DataStore$new()
+
+  # Ensure full mtcars data (may be empty from previous test)
+  if (nrow(store$data) < 32) {
+    delete_mtcars_table(store$con)
+    write_mtcars_to_db(store$con, mtcars)
+    store$data <- load_mtcars_data(store$con)
+    store$original <- store$data
+  }
 
   # Make multiple modifications
   store$update_cell(1, "mpg", 25.5)
@@ -884,6 +868,14 @@ test_that("DataStore$save() throws cli_abort when data is NULL", {
 
 test_that("DataStore$save() works across multiple cycles", {
   store <- DataStore$new()
+
+  # Ensure full mtcars data (may be empty from previous test)
+  if (nrow(store$data) < 32) {
+    delete_mtcars_table(store$con)
+    write_mtcars_to_db(store$con, mtcars)
+    store$data <- load_mtcars_data(store$con)
+    store$original <- store$data
+  }
 
   # First cycle
   store$update_cell(1, "mpg", 25.5)
