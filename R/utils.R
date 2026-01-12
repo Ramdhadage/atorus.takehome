@@ -39,49 +39,7 @@ validate_db_path <- function(package = "atorus.takehome",
   })
 }
 
-#' Copy Database to Temporary Location
-#'
-#' @description
-#' Copies DuckDB file to a temporary directory to avoid file lock issues
-#' (common with OneDrive/cloud storage). Includes automatic cleanup on failure.
-#'
-#' @param db_path Character. Full path to source DuckDB file.
-#'
-#' @return Character. Path to temporary copy. Throws cli_abort on failure.
-#'   On failure, automatically unlinks orphaned temp file.
-#'
-#' @examples
-#' \dontrun{
-#' temp_db <- copy_db_to_temp(db_path)
-#' }
-#' @keywords internal
-copy_db_to_temp <- function(db_path) {
-  tryCatch({
-    # Create temporary file
-    temp_db <- tempfile(fileext = ".duckdb")
 
-    # Copy with error handling
-    success <- file.copy(db_path, temp_db, overwrite = TRUE)
-
-    if (!success) {
-      stop("File copy operation returned FALSE")
-    }
-
-    temp_db
-  }, error = function(e) {
-    # Cleanup: remove orphaned temp file if it exists
-    if (exists("temp_db", inherits = FALSE)) {
-      tryCatch(unlink(temp_db), error = function(x) NULL)
-    }
-
-    cli::cli_abort(c(
-      "Failed to copy DuckDB file to temporary location",
-      "i" = "Source: {db_path}",
-      "i" = "Temp dir: {tempdir()}",
-      "x" = "Error: {conditionMessage(e)}"
-    ))
-  })
-}
 
 #' Establish DuckDB Connection
 #'
