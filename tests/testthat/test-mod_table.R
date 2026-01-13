@@ -4,6 +4,7 @@
 library(shiny)
 
 test_that("mod_table_server initializes with reactiveVal DataStore", {
+  with_fresh_mtcars_db()
   # Arrange - Create test DataStore
   store <- DataStore$new()
   store_reactive <- reactiveVal(store)
@@ -20,6 +21,7 @@ test_that("mod_table_server initializes with reactiveVal DataStore", {
 })
 
 test_that("valid table edit updates store and modified count", {
+  with_fresh_mtcars_db()
   store <- DataStore$new()
   store_reactive <- reactiveVal(store)
   store_trigger <- reactiveVal(0)
@@ -35,6 +37,7 @@ test_that("valid table edit updates store and modified count", {
 })
 
 test_that("save flow calls store$save and resets modified count", {
+  with_fresh_mtcars_db()
   store <- DataStore$new()
   store_reactive <- reactiveVal(store)
   store_trigger <- reactiveVal(0)
@@ -56,6 +59,7 @@ test_that("save flow calls store$save and resets modified count", {
 })
 
 test_that("revert flow calls store$revert and resets modified count", {
+  with_fresh_mtcars_db()
   store <- DataStore$new()
   store_reactive <- reactiveVal(store)
   store_trigger <- reactiveVal(0)
