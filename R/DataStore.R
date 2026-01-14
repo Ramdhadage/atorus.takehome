@@ -27,7 +27,7 @@ DataStore <- R6::R6Class(
     con = NULL,
     #' @field data Working data frame currently in use
     data = NULL,
-    #' @field orignal original baseline snapshot of the data
+    #' @field original Original baseline snapshot of the data
     original = NULL,
     #' Initialize DataStore
     #'
@@ -271,6 +271,7 @@ DataStore <- R6::R6Class(
 
     #' @field modified_cells Counter for number of cell edits since last save/revert
     modified_cells = 0,
+
     #' Cleanup Connection and Temp File
     #'
     #' @description Finalizer to ensure DuckDB connection is properly closed and
