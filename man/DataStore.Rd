@@ -85,6 +85,7 @@ Get Modified Cells Count
 \dontrun{
 count <- store$get_modified_count()
 }
+#' @field db_path Path to DuckDB file
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -93,10 +94,8 @@ count <- store$get_modified_count()
 
 \item{\code{data}}{Working data frame currently in use}
 
-\item{\code{orignal}}{original baseline snapshot of the data
+\item{\code{original}}{Original baseline snapshot of the data
 Initialize DataStore}
-
-\item{\code{temp_db_path}}{Path to temporary DuckDB file (for cleanup on error)}
 
 \item{\code{modified_cells}}{Counter for number of cell edits since last save/revert
 Cleanup Connection and Temp File}
@@ -106,11 +105,6 @@ Cleanup Connection and Temp File}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{orignal}}{original baseline snapshot of the data
-Initialize DataStore}
-
-\item{\code{temp_db_path}}{Path to temporary DuckDB file (for cleanup on error)}
-
 \item{\code{modified_cells}}{Counter for number of cell edits since last save/revert
 Cleanup Connection and Temp File}
 }
@@ -290,6 +284,7 @@ Integer count of modified cells
 \preformatted{\dontrun{
 count <- store$get_modified_count()
 }
+#' @field db_path Path to DuckDB file
 }
 \if{html}{\out{</div>}}
 
