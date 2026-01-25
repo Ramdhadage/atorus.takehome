@@ -147,6 +147,8 @@ mod_table_server <- function(id, store_reactive, store_trigger) {
       }
       hotwidget(data = data)
     })
+    edit_batch <- reactiveVal(NULL)
+    edit_timer <- reactiveVal(NULL)
 
     shiny::observeEvent(input$table_edit, {
       edit <- input$table_edit
@@ -155,6 +157,30 @@ mod_table_server <- function(id, store_reactive, store_trigger) {
         warning("Invalid edit received from widget: missing row/col/value")
         return()
       }
+
+      edit_batch(edit)
+
+      if (!is.null(edit_timer())) {
+        timer_id <- edit_timer()
+        shinyjs::runjs(sprintf("clearTimeout(%d)", timer_id))
+      }
+
+      raf_code <- "
+        (function() {
+          var rafId = requestAnimationFrame(function() {
+            Shiny.setInputValue('table-_raf_trigger', Math.random());
+          });
+          return rafId;
+        })()
+      "
+      raf_id <- shinyjs::runjs(raf_code)
+      edit_timer(raf_id)
+    })
+
+    shiny::observeEvent(input$`_raf_trigger`, {
+      edit <- edit_batch()
+
+      if (is.null(edit)) return()
 
       tryCatch({
         r_row <- edit$row + 1
@@ -182,6 +208,8 @@ mod_table_server <- function(id, store_reactive, store_trigger) {
 
         store_trigger(store_trigger() + 1)
       })
+      edit_batch(NULL)
+      edit_timer(NULL)
     })
 
     shiny::observeEvent(input$save, {
