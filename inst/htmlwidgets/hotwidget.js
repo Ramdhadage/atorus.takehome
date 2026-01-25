@@ -26,6 +26,9 @@ HTMLWidgets.widget({
         }
         console.log("data:", currentData)
         el.innerText = "";
+        const colWidths = x.colWidths || null;
+        const rowHeights = x.rowHeights || 'auto';
+        
         hotInstance = new Handsontable(el, {
           themeName: 'ht-theme-main',
           data: currentData,
@@ -40,6 +43,9 @@ HTMLWidgets.widget({
           contextMenu: true,
           search : true,
           stretchH: 'all',
+          colWidths: colWidths,
+          rowHeights: rowHeights,
+          autoRowSize: x.autoRowSize !== undefined ? x.autoRowSize : false,
           pagination: {
             pageSize: 50,
             pageSizeList: ['auto', 5, 10, 20, 50, 100],
