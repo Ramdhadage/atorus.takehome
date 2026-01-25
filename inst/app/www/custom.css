@@ -45,6 +45,22 @@
   margin-bottom: 0;
 }
 
+.handsontable-container {
+  contain: layout style paint;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.handsontable {
+  contain: layout style paint;
+}
+
+.ht_clone_top,
+.ht_clone_left,
+.ht_clone_top_left_corner {
+  contain: layout style paint;
+}
+
 .card-panel {
   background: white;
   border: 1px solid #dee2e6;
