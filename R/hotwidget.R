@@ -52,11 +52,24 @@ hotwidget <- function(data, width = NULL, height = NULL, elementId = NULL) {
     stop("'data' must be a data.frame")
   }
 
-  # forward options using x
+  col_widths <- sapply(data, function(col) {
+    if (is.numeric(col)) {
+      100
+    } else if (is.logical(col)) {
+      80  
+    } else {
+      150
+    }
+  })
+  
   x = list(
-   data = data,
-   colHeaders = as.list(names(data)),
-   colTypes = as.list(sapply(data, function(col) class(col)[1], USE.NAMES = FALSE))
+    data = data,
+    colHeaders = as.list(names(data)),
+    colTypes = as.list(sapply(data, function(col) class(col)[1], USE.NAMES = FALSE)),
+    colWidths = as.list(col_widths),
+    stretchH = "all",
+    autoRowSize = FALSE,
+    rowHeights = 30
   )
 
   # create widget
