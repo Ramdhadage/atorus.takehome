@@ -650,3 +650,20 @@ write_mtcars_to_db <- function(con, data) {
 clean_error_message <- function(error_msg) {
   gsub("\u001b\\[[0-9;]*m", "", error_msg)
 }
+
+#' Get or Initialize DataStore Cache
+#'
+#' @description
+#' APPROACH #1: Manages DataStore caching in a separate unlocked environment.
+#' Works correctly even when global environment is locked (e.g., with pkgload).
+#'
+#' @keywords internal
+get_cached_store <- function() {
+  if (!exists(".store", envir = .cache_env, inherits = FALSE)) {
+    .cache_env$.store <- DataStore$new()
+    .cache_env$.init_time <- Sys.time()
+  } else {
+    .cache_env$.store$revert()
+  }
+  .cache_env$.store
+}
