@@ -24,7 +24,6 @@ HTMLWidgets.widget({
           hotInstance.destroy();
           hotInstance = null;
         }
-        console.log("data:", currentData)
         el.innerText = "";
         const colWidths = x.colWidths || null;
         const rowHeights = x.rowHeights || 'auto';
@@ -36,7 +35,6 @@ HTMLWidgets.widget({
           className: 'htCenter',
           rowHeaders: false,
           columnSorting: true,
-          multiColumnSorting: true,
           filters: true,
           dropdownMenu: true,
           manualColumnResize: true,
