@@ -46,7 +46,6 @@ test_that("save flow calls store$save and resets modified count", {
   testServer(mod_table_server, args = list(store_reactive = store_reactive, store_trigger = store_trigger), {
     # make an edit
     session$setInputs(table_edit = list(row = 1, col = "mpg", value = 22))
-    session$setInputs(`_raf_trigger` = 1)
     expect_equal(store$get_modified_count(), 1)
 
     # trigger save modal then confirm save
@@ -68,7 +67,6 @@ test_that("revert flow calls store$revert and resets modified count", {
 
   testServer(mod_table_server, args = list(store_reactive = store_reactive, store_trigger = store_trigger), {
     session$setInputs(table_edit = list(row = 1, col = "mpg", value = 10))
-    session$setInputs(`_raf_trigger` = 1)
     expect_equal(store$get_modified_count(), 1)
 
     session$setInputs(revert = 1)
@@ -77,4 +75,3 @@ test_that("revert flow calls store$revert and resets modified count", {
     expect_equal(store$data$mpg[1], store$original$mpg[1])
   })
 })
-
