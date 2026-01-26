@@ -14,6 +14,7 @@ Imports:
     DBI,
     duckdb,
     golem,
+    htmlwidgets,
     pkgload,
     R6,
     shiny,
