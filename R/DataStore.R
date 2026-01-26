@@ -141,12 +141,7 @@ DataStore <- R6::R6Class(
     #' store$summary()
     #' }
     summary = function() {
-      # APPROACH #1: Lazy-load and cache summary statistics
-      # Only compute once per data state, reuse thereafter
-      # This defers ~50-80ms of computation from initial TTFB to first summary access
-      
       tryCatch({
-        # Check if summary is cached and data hasn't changed
         if (!is.null(private$.summary_cache) && private$modified_cells == 0) {
           return(private$.summary_cache)
         }
@@ -167,8 +162,7 @@ DataStore <- R6::R6Class(
           cols = ncol(self$data),
           numeric_means = numeric_means
         )
-        
-        # Cache for future calls until data changes
+
         private$.summary_cache <<- summary_list
 
         cli::cli_inform("Summary generated for {nrow(self$data)} × {ncol(self$data)} dataset")
