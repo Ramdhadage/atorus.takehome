@@ -14,12 +14,16 @@ run_app <- function(
   uiPattern = "/",
   ...
 ) {
+  apply_shiny_performance_config()
+  perf_opts <- get_shiny_server_options()
+  merged_options <- modifyList(perf_opts, options)
+  
   with_golem_options(
     app = shinyApp(
       ui = app_ui,
       server = app_server,
       onStart = onStart,
-      options = options,
+      options = merged_options,
       enableBookmarking = enableBookmarking,
       uiPattern = uiPattern
     ),
