@@ -1,6 +1,6 @@
 # editable <img src="inst/app/www/favicon.ico" align="right" height="138" />
 
-> Interactive Excel-Style Data Editor for R Shiny Applications
+> Interactive Excel-Style Data Editor
 
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- [![R-CMD-check](https://github.com/Ramdhadage/editable/workflows/R-CMD-check/badge.svg)](https://github.com/Ramdhadage/editable/actions) -->
@@ -58,13 +58,11 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   # Initialize data store
-  store <- DataStore$new(
-    db_path = "path/to/your/database.duckdb",
-    table_name = "your_table"
-  )
-  
+  store <- DataStore$new()
+  store_reactive <- reactiveVal(store)
+  store_trigger <- reactiveVal(0)
   # Call the table module
-  mod_table_server("editor", store)
+  mod_table_server("editor", store_reactive, store_trigger)
 }
 
 shinyApp(ui, server)
@@ -120,17 +118,14 @@ shinyApp(ui, server)
 The `DataStore` class provides enterprise-grade data management:
 
 ```r
-store <- DataStore$new(
-  db_path = "data/mydata.duckdb",
-  table_name = "sales_data"
-)
+store <- DataStore$new()
 
 # Access data
 current_data <- store$data
 original_data <- store$original
 
 # Update cells
-store$update_cell(row = 5, col = "revenue", value = 15000)
+store$update_cell(row = 5, col = "mpg", value = 15000)
 
 # Revert changes
 store$revert()
@@ -168,37 +163,15 @@ Powered by HandsOnTable for rich editing experiences:
 
 ## Advanced Features
 
-### Data Validation
-
-```r
-# Column-level validation in DataStore
-store <- DataStore$new(
-  db_path = "data.duckdb",
-  table_name = "products",
-  validators = list(
-    price = function(x) x > 0,
-    quantity = function(x) is.integer(x) && x >= 0
-  )
-)
-```
-
-### Custom Column Types
-
-```r
-# Automatic type coercion
-store$set_column_type("date_created", "Date")
-store$set_column_type("price", "numeric")
-store$set_column_type("category", "factor")
 ```
 
 ### Change Tracking
 
 ```r
-# Check if data has been modified
-store$is_modified()
+
 
 # Get list of changed cells
-changes <- store$get_changes()
+changes <- store$get_modified_count()
 
 # Revert to original state
 store$revert()
