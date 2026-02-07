@@ -13,7 +13,7 @@ calculate_column_means(data, numeric_cols)
 }
 \value{
 Numeric vector of means (names = column names).
-  Throws cli_abort if calculation fails.
+Throws cli_abort if calculation fails.
 }
 \description{
 Calculates means for specified numeric columns.

@@ -5,11 +5,13 @@
 \title{DataStore R6 Class}
 \description{
 Implements single source of truth pattern for Shiny applications:
-- Loads data from DuckDB on initialization
-- Maintains original (immutable) and data (mutable) snapshots
-- Provides type-safe cell updates with validation
-- Supports revert to original state
-- Generates summary statistics for UI display
+\itemize{
+\item Loads data from DuckDB on initialization
+\item Maintains original (immutable) and data (mutable) snapshots
+\item Provides type-safe cell updates with validation
+\item Supports revert to original state
+\item Generates summary statistics for UI display
+}
 }
 \details{
 A production-grade R6 class for managing mutable data state with immutable
@@ -17,12 +19,12 @@ original snapshots, DuckDB persistence, and type-safe cell updates.
 }
 \section{Usage}{
 
-```r
-store <- DataStore$new()
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{store <- DataStore$new()
 store$update_cell(row = 1, col = "mpg", value = 22.5)
 store$revert()
 store$summary()
-```
+}\if{html}{\out{</div>}}
 }
 
 \examples{
@@ -97,7 +99,9 @@ count <- store$get_modified_count()
 \item{\code{original}}{Original baseline snapshot of the data
 Initialize DataStore}
 
-\item{\code{modified_cells}}{Counter for number of cell edits since last save/revert
+\item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
+
+\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)
 Cleanup Connection and Temp File}
 }
 \if{html}{\out{</div>}}
@@ -105,7 +109,9 @@ Cleanup Connection and Temp File}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{modified_cells}}{Counter for number of cell edits since last save/revert
+\item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
+
+\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)
 Cleanup Connection and Temp File}
 }
 \if{html}{\out{</div>}}
@@ -183,7 +189,7 @@ Returns human-readable summary for UI display with validation and error handling
 
 \subsection{Returns}{
 List with summary components (message, rows, cols, numeric_means).
-  All fields always present; numeric_means is NULL if no numeric columns.
+All fields always present; numeric_means is NULL if no numeric columns.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

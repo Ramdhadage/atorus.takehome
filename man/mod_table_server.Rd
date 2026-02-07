@@ -21,22 +21,24 @@ Module server function (for testServer compatibility)
 \description{
 Shiny module server implementing reactive data table with R6 state management.
 Demonstrates production-grade patterns:
-- reactiveVal() wrapping R6 for explicit invalidation
-- Controlled reactivity with manual triggers
-- Bidirectional JS ↔ R communication
-- Type-safe cell updates through R6 validation
+\itemize{
+\item reactiveVal() wrapping R6 for explicit invalidation
+\item Controlled reactivity with manual triggers
+\item Bidirectional JS ↔ R communication
+\item Type-safe cell updates through R6 validation
+}
 }
 \section{Reactivity Pattern}{
 
 This module uses explicit invalidation via reactiveVal():
-```r
-# Reading: triggers reactive dependency
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Reading: triggers reactive dependency
 current_store <- store_reactive()
 
 # Writing: triggers invalidation
 store_reactive()$update_cell(row, col, value)
 store_trigger(store_trigger() + 1)  # Force invalidation
-```
+}\if{html}{\out{</div>}}
 }
 
 \examples{

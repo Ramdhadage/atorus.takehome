@@ -24,22 +24,24 @@ Implements bidirectional R ↔ JS communication with single-cell edit validation
 }
 \details{
 This widget is designed for production Shiny applications requiring:
-- Deterministic single-cell edits (no batch operations)
-- Type validation in both JS and R layers
-- Controlled reactivity through explicit state management
-- Clean separation between UI (Handsontable) and state (R6)
+\itemize{
+\item Deterministic single-cell edits (no batch operations)
+\item Type validation in both JS and R layers
+\item Controlled reactivity through explicit state management
+\item Clean separation between UI (Handsontable) and state (R6)
+}
 }
 \section{JavaScript Communication}{
 
-The widget sends edit events to Shiny via `input$<id>_edit`:
-```
-{
+The widget sends edit events to Shiny via \verb{input$<id>_edit}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\{
   row: 0,              # 0-based JavaScript index
   col: "mpg",          # Column name
   oldValue: 21.0,      # Previous value
   value: 22.5          # New value (user input)
-}
-```
+\}
+}\if{html}{\out{</div>}}
 }
 
 \examples{

@@ -14,7 +14,7 @@ Default: "mtcars"}
 }
 \value{
 data.frame. Table data with proper column types. Returns empty
-  data.frame() on query failure (warns but does not abort).
+data.frame() on query failure (warns but does not abort).
 }
 \description{
 Reads entire table from DuckDB database with type-safe retrieval.

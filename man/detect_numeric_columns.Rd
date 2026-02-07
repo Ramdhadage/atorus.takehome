@@ -11,7 +11,7 @@ detect_numeric_columns(data)
 }
 \value{
 Character vector of numeric column names. Returns empty character(0)
-  if no numeric columns or on calculation error.
+if no numeric columns or on calculation error.
 }
 \description{
 Safely identifies columns with numeric data type.

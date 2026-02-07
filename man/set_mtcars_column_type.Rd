@@ -14,8 +14,10 @@ A data frame with transformed column types
 }
 \description{
 Transforms specific columns in a data frame to more appropriate data types:
-- 'am' column to logical (automatic vs manual transmission)
-- 'vs', 'cyl', 'gear', 'carb' columns to factors
+\itemize{
+\item 'am' column to logical (automatic vs manual transmission)
+\item 'vs', 'cyl', 'gear', 'carb' columns to factors
+}
 }
 \examples{
 transformed_mtcars <- set_mtcars_column_type(mtcars)
