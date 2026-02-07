@@ -78,7 +78,7 @@ hotwidget <- function(data, width = NULL, height = NULL, elementId = NULL) {
     x,
     width = width,
     height = height,
-    package = 'atorus.takehome',
+    package = 'editable',
     elementId = elementId
   )
 }
@@ -101,7 +101,7 @@ hotwidget <- function(data, width = NULL, height = NULL, elementId = NULL) {
 #'
 #' @export
 hotwidgetOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'hotwidget', width, height, package = 'atorus.takehome')
+  htmlwidgets::shinyWidgetOutput(outputId, 'hotwidget', width, height, package = 'editable')
 }
 
 #' @rdname hotwidget-shiny

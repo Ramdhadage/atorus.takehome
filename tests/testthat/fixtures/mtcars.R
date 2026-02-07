@@ -13,7 +13,7 @@
 #' @keywords internal
 #'
 with_fresh_mtcars_db <- function() {
-  db_path <- system.file("extdata", "mtcars.duckdb", package = "atorus.takehome")
+  db_path <- system.file("extdata", "mtcars.duckdb", package = "editable")
 
   if (!file.exists(dirname(db_path))) {
     cli::cli_abort("DuckDB directory not found: {dirname(db_path)}")
