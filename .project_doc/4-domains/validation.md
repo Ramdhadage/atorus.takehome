@@ -2,7 +2,7 @@
 
 ## Overview
 
-Validation in atorus.takehome follows a **multi-phase, deterministic-first approach**:
+Validation in editable follows a **multi-phase, deterministic-first approach**:
 
 1. **Deterministic checks** using `checkmate::assert_*()` (fail-fast)
 2. **Risky operations** in `tryCatch()` blocks (database, type coercion)

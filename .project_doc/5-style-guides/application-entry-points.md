@@ -2,7 +2,7 @@
 
 ## Overview
 
-Application entry points define how the Shiny application starts, loads configuration, and initializes dependencies. In atorus.takehome, entry points include:
+Application entry points define how the Shiny application starts, loads configuration, and initializes dependencies. In editable, entry points include:
 - `app.R` — Local development launcher
 - `R/run_app.R` — Public API for running app
 - `R/app_config.R` — Configuration management
@@ -35,7 +35,7 @@ if (interactive()) {
 }
 
 # Run application
-atorus.takehome::run_app()
+editable::run_app()
 ```
 
 **Rules:**
@@ -43,7 +43,7 @@ atorus.takehome::run_app()
 - Use `pkgload::load_all()` for interactive development
 - Do NOT put business logic here
 - Do NOT define UI, server, or reactive code
-- Use `atorus.takehome::` prefix (explicit namespace)
+- Use `editable::` prefix (explicit namespace)
 
 ### Why Separate from run_app.R?
 
@@ -56,7 +56,7 @@ atorus.takehome::run_app()
 ### run_app.R Pattern
 
 ```r
-#' Run atorus.takehome Shiny Application
+#' Run editable Shiny Application
 #'
 #' @description
 #' Main entry point for application execution.
@@ -161,7 +161,7 @@ get_app_config <- function() {
     # Database paths
     db_path = system.file(
       "extdata", "mtcars.duckdb",
-      package = "atorus.takehome"
+      package = "editable"
     ),
     db_table = "mtcars",
     
@@ -263,7 +263,7 @@ app_ui <- function(id) {
     tags$head(
       tags$meta(charset = "UTF-8"),
       tags$meta(name = "viewport", content = "width=device-width, initial-scale=1"),
-      tags$title("atorus.takehome — Data Editor"),
+      tags$title("editable — Data Editor"),
       
       # Custom CSS
       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
@@ -273,7 +273,7 @@ app_ui <- function(id) {
     tags$header(
       tags$nav(class = "navbar navbar-dark bg-primary",
         tags$div(class = "container-fluid",
-          tags$span(class = "navbar-brand", "atorus.takehome"),
+          tags$span(class = "navbar-brand", "editable"),
           tags$span(class = "navbar-text text-light", "Data Editor")
         )
       )
@@ -292,7 +292,7 @@ app_ui <- function(id) {
     # Footer
     tags$footer(class = "mt-5 pt-3 border-top text-muted",
       tags$div(class = "container-fluid",
-        "atorus.takehome | Data Editing Application"
+        "editable | Data Editing Application"
       )
     )
   )
@@ -307,7 +307,7 @@ app_ui <- function(id) {
 #'
 #' @keywords internal
 get_app_stylesheet <- function() {
-  system.file("app/www/custom.css", package = "atorus.takehome")
+  system.file("app/www/custom.css", package = "editable")
 }
 ```
 

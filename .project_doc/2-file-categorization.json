@@ -2,7 +2,7 @@
   "package-configuration": [
     "DESCRIPTION",
     "NAMESPACE",
-    "atorus.takehome.Rproj"
+    "editable.Rproj"
   ],
   "documentation-configuration": [
     "README.md",

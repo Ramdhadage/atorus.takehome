@@ -2,7 +2,7 @@
 
 ## Overview
 
-Custom htmlwidgets in atorus.takehome provide bidirectional R ↔ JavaScript communication for table editing. The widget consists of:
+Custom htmlwidgets in editable provide bidirectional R ↔ JavaScript communication for table editing. The widget consists of:
 1. **R Wrapper** (`R/hotwidget.R`): Renders widget, manages parameters
 2. **JavaScript Factory** (`inst/htmlwidgets/hotwidget.js`): Initializes Handsontable, handles events
 3. **YAML Manifest** (`inst/htmlwidgets/hotwidget.yaml`): Widget metadata and dependency registration
@@ -94,7 +94,7 @@ hotwidget <- function(
     x = x,
     width = NULL,
     height = NULL,
-    package = "atorus.takehome",
+    package = "editable",
     ...
   )
 }

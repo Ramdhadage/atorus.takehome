@@ -45,7 +45,7 @@ hotwidget <- function(data, width = NULL, height = NULL, elementId = NULL) {
     x,
     width = width,
     height = height,
-    package = 'atorus.takehome',
+    package = 'editable',
     elementId = elementId
   )
 }
@@ -67,7 +67,7 @@ hotwidgetOutput <- function(outputId, width = '100%', height = '400px'){
     'hotwidget', 
     width, 
     height, 
-    package = 'atorus.takehome'
+    package = 'editable'
   )
 }
 

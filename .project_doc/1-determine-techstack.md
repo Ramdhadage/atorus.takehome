@@ -1,4 +1,4 @@
-# Tech Stack Analysis: atorus.takehome
+# Tech Stack Analysis: editable
 
 ## Core Technology Analysis
 
@@ -181,7 +181,7 @@ This application targets **interactive data management and editing** within a **
 
 ## Summary
 
-**atorus.takehome** is a **production-grade demonstration** of:
+**editable** is a **production-grade demonstration** of:
 - Shiny module architecture with R6 state management
 - Custom htmlwidget implementation for complex UIs
 - Type-safe data validation patterns

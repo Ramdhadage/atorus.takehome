@@ -2,7 +2,7 @@
 
 ## Overview
 
-State management in atorus.takehome is built entirely on **R6 classes** paired with **Shiny reactive values**. The architecture emphasizes:
+State management in editable is built entirely on **R6 classes** paired with **Shiny reactive values**. The architecture emphasizes:
 - Single source of truth (DataStore R6 object)
 - Immutable snapshots for data integrity
 - Explicit reactive triggers for controlled invalidation

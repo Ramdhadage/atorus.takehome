@@ -1,7 +1,7 @@
-# Copilot Instructions: atorus.takehome
+# Copilot Instructions: editable
 
 **Version:** 1.0.0  
-**Project:** atorus.takehome — Pharmaceutical Data Editor  
+**Project:** editable — Interactive Excel-Style Data Editor
 **Technology Stack:** R + Shiny + DuckDB + Custom HTMLWidgets  
 **Last Updated:** 2024  
 
@@ -427,7 +427,7 @@ hotwidget <- function(
   htmlwidgets::createWidget(
     name = "hotwidget",
     x = x,
-    package = "atorus.takehome",
+    package = "editable",
     ...
   )
 }
@@ -784,8 +784,8 @@ HTMLWidgets.widget({ name: "hotwidget", factory: ... })
 ```r
 # testthat.R: Entry point
 library(testthat)
-library(atorus.takehome)
-test_check("atorus.takehome")
+library(editable)
+test_check("editable")
 
 # helpers.R: Shared utilities
 establish_test_db <- function() {
@@ -879,13 +879,13 @@ Imports:
 └─ Restores: renv::restore() on new environment
 ```
 
-### Category 13: Project Configuration (`atorus.takehome.Rproj`, `.Rprofile`)
+### Category 13: Project Configuration (`editable.Rproj`, `.Rprofile`)
 
 **Purpose:** RStudio + development settings  
 **Pattern:** Project-level config files
 
 ```ini
-# atorus.takehome.Rproj
+# editable.Rproj
 [RStudio config]
 RestoreWorkspace: No
 SaveWorkspace: No
@@ -900,7 +900,7 @@ PackageRoxygenize: rd,collate,namespace
 
 ```yaml
 default:
-  golem_name: atorus.takehome
+  golem_name: editable
   app_prod: no
   
 production:
@@ -1594,7 +1594,7 @@ A: Button → showModal → modalDialog with actionButton + modalButton → obse
 
 ## Summary
 
-This document provides definitive guidance for AI assistants on developing features in **atorus.takehome**. It combines:
+This document provides definitive guidance for AI assistants on developing features in **editable**. It combines:
 
 1. **Architecture overview** (7 domains with constraints)
 2. **File taxonomy** (15 categories with patterns)

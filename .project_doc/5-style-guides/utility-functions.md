@@ -2,7 +2,7 @@
 
 ## Overview
 
-Utility functions in atorus.takehome are **single-responsibility, pure functions** that support validation, type coercion, and data operations. They are designed to be:
+Utility functions in editable are **single-responsibility, pure functions** that support validation, type coercion, and data operations. They are designed to be:
 - Deterministic (same input → same output)
 - Focused on one concern
 - Composable (used in validation chains)

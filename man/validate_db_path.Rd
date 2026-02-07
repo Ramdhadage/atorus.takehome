@@ -5,7 +5,7 @@
 \title{Validate DuckDB Path}
 \usage{
 validate_db_path(
-  package = "atorus.takehome",
+  package = "editable",
   subdir = "extdata",
   filename = "mtcars.duckdb"
 )

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Shiny modules in atorus.takehome follow the **UI + Server pattern** with explicit namespace isolation and reactive dependency management. Modules encapsulate both interface and logic for specific features.
+Shiny modules in editable follow the **UI + Server pattern** with explicit namespace isolation and reactive dependency management. Modules encapsulate both interface and logic for specific features.
 
 ## Module Naming Convention
 

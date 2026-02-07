@@ -2,7 +2,7 @@
 
 ## Overview
 
-R6 classes in atorus.takehome implement sophisticated state management with emphasis on data integrity, type safety, and comprehensive validation. The DataStore class is the canonical example.
+R6 classes in editable implement sophisticated state management with emphasis on data integrity, type safety, and comprehensive validation. The DataStore class is the canonical example.
 
 ## File Convention
 

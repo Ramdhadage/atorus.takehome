@@ -2,7 +2,7 @@
 
 ## Overview
 
-Testing in atorus.takehome emphasizes **deterministic, comprehensive unit test coverage** with real integrations (not mocks). Key principles:
+Testing in editable emphasizes **deterministic, comprehensive unit test coverage** with real integrations (not mocks). Key principles:
 - All public R6 methods tested
 - Edge cases and error conditions covered
 - Real DuckDB database used (not mocked)
@@ -15,9 +15,9 @@ Testing in atorus.takehome emphasizes **deterministic, comprehensive unit test c
 ```r
 # tests/testthat.R
 library(testthat)
-library(atorus.takehome)
+library(editable)
 
-test_check("atorus.takehome")
+test_check("editable")
 ```
 
 **Test Configuration**:

@@ -41,7 +41,7 @@
       "single-table-focus": "Current design focuses on single-table operations (mtcars). Complex joins not supported.",
       "read-write-connection": "Open connections in read-write mode by default (read_only = FALSE)",
       "connection-cleanup": "finalize() method must handle dbDisconnect() with proper error handling",
-      "bundled-database": "Database is bundled via system.file('extdata', 'mtcars.duckdb', package = 'atorus.takehome')",
+      "bundled-database": "Database is bundled via system.file('extdata', 'mtcars.duckdb', package = 'editable')",
       "table-level-operations": "All persistence operates at table level (DROP/CREATE/INSERT), not row level"
     }
   },
@@ -63,7 +63,7 @@
   },
   "htmlwidget-communication": {
     "required_patterns": {
-      "widget-factory": "Use htmlwidgets::createWidget() with package name 'atorus.takehome'",
+      "widget-factory": "Use htmlwidgets::createWidget() with package name 'editable'",
       "shiny-bindings": "Export hotwidgetOutput() and renderHotwidget() for Shiny integration",
       "js-r-messaging": "Shiny.setInputValue() sends edits from JS to R as input$<id>_edit",
       "raf-debouncing": "Use requestAnimationFrame() to batch rapid edits and prevent edit storms",

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Data persistence in atorus.takehome is built around **DuckDB with DBI**, providing:
+Data persistence in editable is built around **DuckDB with DBI**, providing:
 - Embedded, file-based database (no external server required)
 - Type-safe table I/O
 - Transaction-like semantics (drop/create/write cycle)
@@ -13,7 +13,7 @@ Data persistence in atorus.takehome is built around **DuckDB with DBI**, providi
 ### Database Bundle Location
 
 ```r
-validate_db_path <- function(package = "atorus.takehome",
+validate_db_path <- function(package = "editable",
                              subdir = "extdata",
                              filename = "mtcars.duckdb") {
   tryCatch({
