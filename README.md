@@ -3,7 +3,7 @@
 > Interactive Excel-Style Data Editor for R Shiny Applications
 
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/yourusername/editable/workflows/R-CMD-check/badge.svg)](https://github.com/yourusername/editable/actions)
+<!-- [![R-CMD-check](https://github.com/Ramdhadage/editable/workflows/R-CMD-check/badge.svg)](https://github.com/Ramdhadage/editable/actions) -->
 
 ---
 
@@ -32,12 +32,6 @@
 # Install development version
 remotes::install_github("Ramdhadage/editable")
 ```
-
-### System Requirements
-
-- R >= 4.0.0
-- DuckDB system libraries (automatically installed with the package)
-
 ---
 
 ## Quick Start
@@ -267,23 +261,6 @@ development:
   app_prod: no
   db_path: "inst/extdata/mtcars.duckdb"
 ```
-
-### Custom Styling
-
-Add custom CSS in `inst/app/www/custom.css`:
-
-```css
-/* Customize table appearance */
-.handsontable .htCore {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Highlight modified cells */
-.modified-cell {
-  background-color: #fff3cd !important;
-}
-```
-
 ---
 
 ## Package Structure
@@ -409,7 +386,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/editable.git
+git clone https://github.com/Ramdhadage/editable.git
 cd editable
 ```
 
@@ -429,8 +406,8 @@ devtools::test()
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/editable/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/editable/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Ramdhadage/editable/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Ramdhadage/editable/discussions)
 - **Email**: ram.dhadage123@gmail.com
 
 ---
@@ -448,9 +425,9 @@ If you use this package in your research, please cite:
 ```bibtex
 @software{editable2025,
   author = {Dhadage, Ramnath},
-  title = {editable: Interactive Excel-Style Data Editor for R Shiny},
+  title = {editable: Interactive Excel-Style Data Editor},
   year = {2025},
-  url = {https://github.com/yourusername/editable}
+  url = {https://github.com/Ramdhadage/editable}
 }
 ```
 
@@ -468,5 +445,5 @@ Built with:
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/yourusername">Ramnath Dhadage</a>
+  Made with ❤️ by <a href="https://github.com/editable">Ramnath Dhadage</a>
 </p>
