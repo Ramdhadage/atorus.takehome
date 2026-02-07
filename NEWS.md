@@ -54,7 +54,7 @@
 
 ## Development Roadmap
 
-### Version 0.2.0 (Planned Q2 2026)
+### Version 0.2.0 (Planned Q2 2025)
 
 * Excel file import/export
 * Advanced filtering and sorting
