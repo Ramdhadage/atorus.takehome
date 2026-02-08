@@ -92,8 +92,6 @@ DataStore <- R6::R6Class(
 
       invisible(self)
     },
-    #' Revert to original State
-    #'
     #' @description Reset the working data (self$data) back to the original snapshot.
     #'
     #' Expected behavior:
@@ -128,8 +126,6 @@ DataStore <- R6::R6Class(
         cli::cli_abort(c("Revert operation failed", "x" = "{conditionMessage(e)}"))
       })
     },
-    #' Generate Dataset Summary
-    #'
     #' @description
     #' Returns human-readable summary for UI display with validation and error handling.
     #'
@@ -175,8 +171,6 @@ DataStore <- R6::R6Class(
         ))
       })
     },
-    #' Update Single Cell
-    #'
     #' @description
     #' Type-safe cell update with validation. Ensures data type consistency
     #' with original dataset. Implements deterministic single-cell edit pattern
@@ -221,8 +215,6 @@ DataStore <- R6::R6Class(
 
       invisible(TRUE)
     },
-    #' Save Current Data to DuckDB
-    #'
     #' @description
     #' Persists current working data back to DuckDB table with full validation.
     #' Implements granular validation phases with deterministic checks (checkmate)
@@ -259,8 +251,6 @@ DataStore <- R6::R6Class(
       })
 
     },
-    #' Get Modified Cells Count
-    #'
     #' @description
     #' Returns the number of cells that have been modified since last save/revert.
     #'
