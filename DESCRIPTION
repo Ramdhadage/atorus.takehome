@@ -15,6 +15,7 @@ Imports:
     duckdb,
     golem,
     htmlwidgets,
+    methods,
     R6,
     rlang,
     shiny,
