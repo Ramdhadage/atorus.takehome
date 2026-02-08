@@ -288,6 +288,7 @@ validate_column <- function(col, data) {
 #' \dontrun{
 #' coerce_value(22.5, "mpg", mtcars)
 #' }
+#' @importFrom methods as
 #' @keywords internal
 coerce_value <- function(value, col_name, original_data) {
   tryCatch({
@@ -321,7 +322,7 @@ coerce_value <- function(value, col_name, original_data) {
 #'
 #' @description
 #' Validates that type coercion did not introduce unwanted NA values.
-#' Allows valid NA transitions (NA→NA), but prevents data loss (value→NA).
+#' Allows valid NA transitions (NA->NA), but prevents data loss (value->NA).
 #' Used in update_cell validation chain.
 #'
 #' @param coerced_value Coerced value from type conversion.
