@@ -37,7 +37,7 @@ store$summary()
 store <- DataStore$new()
 }
 
-Revert to Original State
+Revert to original State
 
 
 ## ------------------------------------------------
@@ -88,9 +88,7 @@ Get Modified Cells Count
 \dontrun{
 count <- store$get_modified_count()
 }
-#' @field db_path Path to DuckDB file
 }
-\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -101,9 +99,11 @@ count <- store$get_modified_count()
 \item{\code{original}}{Original baseline snapshot of the data
 Initialize DataStore}
 
+\item{\code{db_path}}{Path to DuckDB file}
+
 \item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
 
-\item{\code{.summary_cache}}{Cached summary to avoid recomputation.
+\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)
 Cleanup Connection and Temp File}
 }
 \if{html}{\out{</div>}}
@@ -111,9 +111,11 @@ Cleanup Connection and Temp File}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{db_path}}{Path to DuckDB file}
+
 \item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
 
-\item{\code{.summary_cache}}{Cached summary to avoid recomputation.
+\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)
 Cleanup Connection and Temp File}
 }
 \if{html}{\out{</div>}}
@@ -135,6 +137,19 @@ Cleanup Connection and Temp File}
 \if{latex}{\out{\hypertarget{method-DataStore-new}{}}}
 \subsection{Method \code{new()}}{
 This function does following tasks:
+\enumerate{
+\item Locate the bundled DuckDB file located in inst/extdata/
+Use: system.file("extdata", "mtcars.duckdb", package = "\if{html}{\out{<your-package>}}")
+\item Establish a DuckDB connection using DBI::dbConnect()
+(store the connection in self$con)
+\item Query the "mtcars" table from the database
+using DBI::dbGetQuery()
+\item Store the result in:
+\itemize{
+\item self$data     (the working, mutable copy)
+\item self$original (the immutable original snapshot)
+}
+}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataStore$new()}\if{html}{\out{</div>}}
 }
@@ -148,7 +163,7 @@ Invisible self for method chaining
 store <- DataStore$new()
 }
 
-Revert to Original State
+Revert to original State
 
 }
 \if{html}{\out{</div>}}
@@ -162,7 +177,7 @@ Revert to Original State
 \subsection{Method \code{revert()}}{
 Reset the working data (self$data) back to the original snapshot.
 
-EXPECTED BEHAVIOR:
+Expected behavior:
 \itemize{
 \item self$data should become identical to self$original
 \item Does not affect the database or the connection
@@ -299,7 +314,6 @@ Integer count of modified cells
 \preformatted{\dontrun{
 count <- store$get_modified_count()
 }
-#' @field db_path Path to DuckDB file
 }
 \if{html}{\out{</div>}}
 

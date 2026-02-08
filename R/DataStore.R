@@ -33,18 +33,18 @@ DataStore <- R6::R6Class(
     #'
     #' @description
     #' This function does following tasks:
-    # 1. Locate the bundled DuckDB file located in inst/extdata/
-    #    Use: system.file("extdata", "mtcars.duckdb", package = "<your-package>")
-    #
-    # 2. Establish a DuckDB connection using DBI::dbConnect()
-    #    (store the connection in self$con)
-    #
-    # 3. Query the "mtcars" table from the database
-    #    using DBI::dbGetQuery()
-    #
-    # 4. Store the result in:
-    #    - self$data     (the working, mutable copy)
-    #    - self$original (the immutable original snapshot)
+    #' 1. Locate the bundled DuckDB file located in inst/extdata/
+    #'    Use: system.file("extdata", "mtcars.duckdb", package = "<your-package>")
+    #'
+    #' 2. Establish a DuckDB connection using DBI::dbConnect()
+    #'    (store the connection in self$con)
+    #'
+    #' 3. Query the "mtcars" table from the database
+    #'    using DBI::dbGetQuery()
+    #'
+    #' 4. Store the result in:
+    #'    - self$data     (the working, mutable copy)
+    #'    - self$original (the immutable original snapshot)
     #'
     #' @return Invisible self for method chaining
     #' @examples
@@ -92,11 +92,11 @@ DataStore <- R6::R6Class(
 
       invisible(self)
     },
-    #' Revert to Original State
+    #' Revert to original State
     #'
     #' @description Reset the working data (self$data) back to the original snapshot.
     #'
-    #' EXPECTED BEHAVIOR:
+    #' Expected behavior:
     #' - self$data should become identical to self$original
     #' - Does not affect the database or the connection
     #'
@@ -275,11 +275,15 @@ DataStore <- R6::R6Class(
   ),
 
   private = list(
-    #' #' @field db_path Path to DuckDB file
+    #' @field db_path Path to DuckDB file
     db_path = NULL,
+
     #' @field modified_cells Counter for number of cell edits since last save/revert
     modified_cells = 0,
-    #' @field .summary_cache Cached summary to avoid recomputation.
+
+    #' @field .summary_cache Cached summary to avoid recomputation (APPROACH #1)
+    .summary_cache = NULL,
+
     #' Cleanup Connection and Temp File
     #'
     #' @description Finalizer to ensure DuckDB connection is properly closed and
@@ -287,7 +291,6 @@ DataStore <- R6::R6Class(
     #' garbage collection or explicit rm().
     #'
     #' @return Invisible NULL
-    #' @keywords internal
     finalize = function() {
       # Disconnect from DuckDB
       if (!is.null(self$con)) {
