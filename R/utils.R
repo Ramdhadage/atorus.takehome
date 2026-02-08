@@ -563,8 +563,8 @@ validate_save_structure <- function(data, original) {
     cli::cli_abort(c(
       "Data structure does not match original",
       "x" = "{conditionMessage(e)}",
-      "i" = "Original: {nrow(original)} rows × {ncol(original)} columns",
-      "i" = "Current: {nrow(data)} rows × {ncol(data)} columns",
+      "i" = "Original: {nrow(original)} rows x {ncol(original)} columns",
+      "i" = "Current: {nrow(data)} rows x {ncol(data)} columns",
       "i" = "Original columns: {paste(names(original), collapse = ', ')}",
       "i" = "Current columns: {paste(names(data), collapse = ', ')}"
     ))
