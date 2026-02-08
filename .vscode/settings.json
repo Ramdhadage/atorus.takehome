@@ -1,0 +1,11 @@
+{
+    "duckdb.databases": [
+        {
+            "alias": "mtcars",
+            "type": "file",
+            "path": "d:\\R shiny Apps\\editable\\inst\\extdata\\mtcars.duckdb",
+            "attached": false
+        }
+    ],
+    "duckdb.defaultDatabase": "mtcars"
+}
