@@ -37,8 +37,6 @@ store$summary()
 store <- DataStore$new()
 }
 
-Revert to original State
-
 
 ## ------------------------------------------------
 ## Method `DataStore$revert`
@@ -47,8 +45,6 @@ Revert to original State
 \dontrun{
 store$revert()
 }
-Generate Dataset Summary
-
 
 ## ------------------------------------------------
 ## Method `DataStore$summary`
@@ -57,8 +53,6 @@ Generate Dataset Summary
 \dontrun{
 store$summary()
 }
-Update Single Cell
-
 
 ## ------------------------------------------------
 ## Method `DataStore$update_cell`
@@ -68,8 +62,6 @@ Update Single Cell
 store$update_cell(1, "mpg", 22.5)
 store$update_cell(2, 4, 120)  # Using column index
 }
-Save Current Data to DuckDB
-
 
 ## ------------------------------------------------
 ## Method `DataStore$save`
@@ -78,8 +70,6 @@ Save Current Data to DuckDB
 \dontrun{
 store$save()
 }
-Get Modified Cells Count
-
 
 ## ------------------------------------------------
 ## Method `DataStore$get_modified_count`
@@ -103,8 +93,7 @@ Initialize DataStore}
 
 \item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
 
-\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)
-Cleanup Connection and Temp File}
+\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)}
 }
 \if{html}{\out{</div>}}
 }
@@ -115,8 +104,7 @@ Cleanup Connection and Temp File}
 
 \item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
 
-\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)
-Cleanup Connection and Temp File}
+\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)}
 }
 \if{html}{\out{</div>}}
 }
@@ -163,8 +151,6 @@ Invisible self for method chaining
 store <- DataStore$new()
 }
 
-Revert to original State
-
 }
 \if{html}{\out{</div>}}
 
@@ -194,8 +180,6 @@ Invisible self for method chaining
 \preformatted{\dontrun{
 store$revert()
 }
-Generate Dataset Summary
-
 }
 \if{html}{\out{</div>}}
 
@@ -220,8 +204,6 @@ All fields always present; numeric_means is NULL if no numeric columns.
 \preformatted{\dontrun{
 store$summary()
 }
-Update Single Cell
-
 }
 \if{html}{\out{</div>}}
 
@@ -259,8 +241,6 @@ Invisible TRUE on success, throws cli_abort on validation failure
 store$update_cell(1, "mpg", 22.5)
 store$update_cell(2, 4, 120)  # Using column index
 }
-Save Current Data to DuckDB
-
 }
 \if{html}{\out{</div>}}
 
@@ -289,8 +269,6 @@ Invisible self for method chaining
 \preformatted{\dontrun{
 store$save()
 }
-Get Modified Cells Count
-
 }
 \if{html}{\out{</div>}}
 

@@ -273,9 +273,6 @@ DataStore <- R6::R6Class(
 
     #' @field .summary_cache Cached summary to avoid recomputation (APPROACH #1)
     .summary_cache = NULL,
-
-    #' Cleanup Connection and Temp File
-    #'
     #' @description Finalizer to ensure DuckDB connection is properly closed and
     #' temporary database file is cleaned up. Called automatically on
     #' garbage collection or explicit rm().
