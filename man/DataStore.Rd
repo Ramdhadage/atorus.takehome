@@ -36,6 +36,7 @@ store$summary()
 \dontrun{
 store <- DataStore$new()
 }
+
 Revert to Original State
 
 
@@ -89,6 +90,7 @@ count <- store$get_modified_count()
 }
 #' @field db_path Path to DuckDB file
 }
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -101,7 +103,7 @@ Initialize DataStore}
 
 \item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
 
-\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)
+\item{\code{.summary_cache}}{Cached summary to avoid recomputation.
 Cleanup Connection and Temp File}
 }
 \if{html}{\out{</div>}}
@@ -111,7 +113,7 @@ Cleanup Connection and Temp File}
 \describe{
 \item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
 
-\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)
+\item{\code{.summary_cache}}{Cached summary to avoid recomputation.
 Cleanup Connection and Temp File}
 }
 \if{html}{\out{</div>}}
@@ -145,6 +147,7 @@ Invisible self for method chaining
 \preformatted{\dontrun{
 store <- DataStore$new()
 }
+
 Revert to Original State
 
 }
@@ -158,6 +161,12 @@ Revert to Original State
 \if{latex}{\out{\hypertarget{method-DataStore-revert}{}}}
 \subsection{Method \code{revert()}}{
 Reset the working data (self$data) back to the original snapshot.
+
+EXPECTED BEHAVIOR:
+\itemize{
+\item self$data should become identical to self$original
+\item Does not affect the database or the connection
+}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataStore$revert()}\if{html}{\out{</div>}}
 }

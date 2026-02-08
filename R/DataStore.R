@@ -51,6 +51,7 @@ DataStore <- R6::R6Class(
     #' \dontrun{
     #' store <- DataStore$new()
     #' }
+    #'
     initialize = function() {
       tryCatch({
         private$db_path <- validate_db_path()
@@ -145,7 +146,7 @@ DataStore <- R6::R6Class(
         if (!is.null(private$.summary_cache) && private$modified_cells == 0) {
           return(private$.summary_cache)
         }
-        
+
         validate_summary_data(self$data)
 
         numeric_cols <- detect_numeric_columns(self$data)
@@ -276,13 +277,9 @@ DataStore <- R6::R6Class(
   private = list(
     #' #' @field db_path Path to DuckDB file
     db_path = NULL,
-
     #' @field modified_cells Counter for number of cell edits since last save/revert
     modified_cells = 0,
-    
-    #' @field .summary_cache Cached summary to avoid recomputation (APPROACH #1)
-    .summary_cache = NULL,
-
+    #' @field .summary_cache Cached summary to avoid recomputation.
     #' Cleanup Connection and Temp File
     #'
     #' @description Finalizer to ensure DuckDB connection is properly closed and
@@ -290,6 +287,7 @@ DataStore <- R6::R6Class(
     #' garbage collection or explicit rm().
     #'
     #' @return Invisible NULL
+    #' @keywords internal
     finalize = function() {
       # Disconnect from DuckDB
       if (!is.null(self$con)) {
