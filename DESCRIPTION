@@ -17,6 +17,7 @@ Imports:
     htmlwidgets,
     pkgload,
     R6,
+    rlang,
     shiny,
     shinyjs
 Suggests: 
