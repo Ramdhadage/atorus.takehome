@@ -15,12 +15,12 @@ Imports:
     duckdb,
     golem,
     htmlwidgets,
-    pkgload,
     R6,
     rlang,
     shiny,
     shinyjs
-Suggests: 
+Suggests:
+    pkgload, 
     here,
     knitr,
     rmarkdown,
