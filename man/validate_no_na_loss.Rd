@@ -18,7 +18,7 @@ Invisible TRUE on success. Throws cli_abort on failure.
 }
 \description{
 Validates that type coercion did not introduce unwanted NA values.
-Allows valid NA transitions (NA→NA), but prevents data loss (value→NA).
+Allows valid NA transitions (NA->NA), but prevents data loss (value->NA).
 Used in update_cell validation chain.
 }
 \examples{
