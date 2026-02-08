@@ -15,3 +15,8 @@ $run_dev.*
 ^\.rscignore$
 ^doc$
 ^Meta$
+^\.github$
+^\.project_doc$
+^\.vscode$
+^CONTRIBUTING\.md$
+^New\ Doc$
