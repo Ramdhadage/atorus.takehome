@@ -15,8 +15,12 @@ run_app <- function(
   ...
 ) {
   apply_shiny_performance_config()
+  
+  in_test <- nzchar(Sys.getenv("SHINYTEST_REMOTE"))
+  test_options <- if (in_test) list(test.mode = TRUE) else list()
+  
   perf_opts <- get_shiny_server_options()
-  merged_options <- modifyList(perf_opts, options)
+  merged_options <- modifyList(modifyList(perf_opts, test_options), options)
   
   with_golem_options(
     app = shinyApp(

@@ -18,9 +18,11 @@
 #'
 #' @return Named list of Shiny server options
 get_shiny_server_options <- function() {
+  in_test <- nzchar(Sys.getenv("SHINYTEST_REMOTE"))
+  
   list(
-    compression = "gzip",
-    compression_level = 9, 
+    compression = if (in_test) "none" else "gzip",
+    compression_level = if (in_test) 0 else 9, 
     app.static_assets = list(
       cache_control_max_age = 31536000,
       use_etags = TRUE
@@ -30,7 +32,7 @@ get_shiny_server_options <- function() {
     
     enable_bookmarking = FALSE,
     
-    suppress_connection_messages = TRUE,
+    suppress_connection_messages = if (in_test) FALSE else TRUE,
     host = "127.0.0.1",
     port = 7159
   )
