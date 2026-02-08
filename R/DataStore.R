@@ -94,10 +94,10 @@ DataStore <- R6::R6Class(
     #' Revert to Original State
     #'
     #' @description Reset the working data (self$data) back to the original snapshot.
-    #
-    # EXPECTED BEHAVIOR:
-    # - self$data should become identical to self$original
-    # - Does not affect the database or the connection
+    #'
+    #' EXPECTED BEHAVIOR:
+    #' - self$data should become identical to self$original
+    #' - Does not affect the database or the connection
     #'
     #' @return Invisible self for method chaining
     #' @examples
@@ -165,7 +165,7 @@ DataStore <- R6::R6Class(
 
         private$.summary_cache <<- summary_list
 
-        cli::cli_inform("Summary generated for {nrow(self$data)} × {ncol(self$data)} dataset")
+        cli::cli_inform("Summary generated for {nrow(self$data)} x {ncol(self$data)} dataset")
         summary_list
       }, error = function(e) {
         cli::cli_abort(c(
