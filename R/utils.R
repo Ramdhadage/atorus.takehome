@@ -131,7 +131,10 @@ load_mtcars_data <- function(con, table = "mtcars", default_rownames = NULL) {
 #' @param data A data frame to transform
 #' @return A data frame with transformed column types
 #' @examples
+#' \dontrun{
 #' transformed_mtcars <- set_mtcars_column_type(mtcars)
+#' }
+#' @keywords internal
 set_mtcars_column_type <- function(data) {
   if (!is.data.frame(data)) {
     stop("Input must be a data frame")
