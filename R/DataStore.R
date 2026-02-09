@@ -265,19 +265,9 @@ DataStore <- R6::R6Class(
   ),
 
   private = list(
-    #' @field db_path Path to DuckDB file
     db_path = NULL,
-
-    #' @field modified_cells Counter for number of cell edits since last save/revert
     modified_cells = 0,
-
-    #' @field .summary_cache Cached summary to avoid recomputation (APPROACH #1)
     .summary_cache = NULL,
-    #' @description Finalizer to ensure DuckDB connection is properly closed and
-    #' temporary database file is cleaned up. Called automatically on
-    #' garbage collection or explicit rm().
-    #'
-    #' @return Invisible NULL
     finalize = function() {
       # Disconnect from DuckDB
       if (!is.null(self$con)) {

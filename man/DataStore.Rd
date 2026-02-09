@@ -88,23 +88,6 @@ count <- store$get_modified_count()
 
 \item{\code{original}}{Original baseline snapshot of the data
 Initialize DataStore}
-
-\item{\code{db_path}}{Path to DuckDB file}
-
-\item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
-
-\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{db_path}}{Path to DuckDB file}
-
-\item{\code{modified_cells}}{Counter for number of cell edits since last save/revert}
-
-\item{\code{.summary_cache}}{Cached summary to avoid recomputation (APPROACH #1)}
 }
 \if{html}{\out{</div>}}
 }
