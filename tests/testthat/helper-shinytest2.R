@@ -3,7 +3,7 @@ library(editable)
 library(shiny)
 start_app <- function(...) {
   app <- shinytest2::AppDriver$new(
-    app_dir = here::here("inst/app"), 
+    app_dir = system.file("app", package = "editable"), 
     load_timeout = 20000, 
     variant = shinytest2::platform_variant(), 
     expect_values_screenshot_args = FALSE, 
