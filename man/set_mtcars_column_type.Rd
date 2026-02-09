@@ -20,5 +20,8 @@ Transforms specific columns in a data frame to more appropriate data types:
 }
 }
 \examples{
+\dontrun{
 transformed_mtcars <- set_mtcars_column_type(mtcars)
 }
+}
+\keyword{internal}
