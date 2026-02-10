@@ -64,7 +64,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "Take-Home Assignment Solution"
+      app_title = "Interactive Excel-Style Data Editor"
     )
   )
 }
