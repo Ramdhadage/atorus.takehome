@@ -18,7 +18,9 @@ mod_table_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-
+    shinyjs::useShinyjs(),
+    awn::useAwn(),
+    golem_add_external_resources(),
     div(
       class = "action-buttons mb-3 save-revert-buttons",
       actionButton(

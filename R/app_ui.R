@@ -6,12 +6,6 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    golem_add_external_resources(),
-
-    shinyjs::useShinyjs(),
-
-    awn::useAwn(),
-
     bslib::page_navbar(
       title = "Data Explorer",
       id = "navbar",

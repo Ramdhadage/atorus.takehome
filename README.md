@@ -58,7 +58,7 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   # Initialize data store
-  store <- DataStore$new()
+  store <- get_cached_store()
   store_reactive <- reactiveVal(store)
   store_trigger <- reactiveVal(0)
   # Call the table module
