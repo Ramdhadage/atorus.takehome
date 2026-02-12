@@ -656,11 +656,11 @@ clean_error_message <- function(error_msg) {
 }
 
 #' Get or Initialize DataStore Cache
-#'
 #' @description
-#' APPROACH #1: Manages DataStore caching in a separate unlocked environment.
-#' Works correctly even when global environment is locked (e.g., with pkgload).
-#'
+#' Retrieves the cached DataStore instance from the .cache_env environment.
+#' If it doesn't exist, initializes a new DataStore and stores it in the cache.
+#' If it already exists, calls the revert() method to reset it to initial state.
+#' This function ensures that the DataStore is always available and in a consistent state. # nolint
 #' @keywords internal
 get_cached_store <- function() {
   if (!exists(".store", envir = .cache_env, inherits = FALSE)) {
